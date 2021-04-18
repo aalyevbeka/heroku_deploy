@@ -1,0 +1,24 @@
+version: "3"
+services:
+    kmysql:
+        image: mysql:8.0.23
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: newdb
+            MYSQL_ROOT_PASSWORD: 108847
+        volumes:
+         - db_data:/var/lib/mysql
+    kapp:
+        build: .
+        ports:
+            - 8080:8080
+        links:
+            - kmysql
+        environment:
+            DB_HOST: kmysql:3306
+            DB_USER: root
+            DB_PASSWORD: root
+            DB_NAME: newdb
+volumes:
+    db_data: {}
